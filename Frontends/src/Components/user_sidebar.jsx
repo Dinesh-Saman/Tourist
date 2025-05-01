@@ -4,9 +4,15 @@ import styled from 'styled-components';
 import { 
   FaTachometerAlt, FaUser, FaUserPlus, 
   FaFileAlt, FaUsers, FaSignOutAlt, FaHome,
-  FaUserCog, FaUserEdit, FaUserTimes, FaUserCheck
+  FaUserCog, FaUserEdit, FaUserTimes, FaUserCheck,
+  FaDashcube,
+  FaWindows,
+  FaPaperPlane,
+  FaPager,
+  FaChartArea
 } from 'react-icons/fa';
 import Logo from '../Images/logo.png';
+import { Dashboard } from '@material-ui/icons';
 
 const SidebarContainer = styled.div`
   width: 220px;
@@ -95,8 +101,14 @@ const UserSidebar = () => {
         </Link>
         <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
           <MenuItem>
-            <Icon><FaTachometerAlt /></Icon>
+            <Icon><Dashboard /></Icon>
             Dashboard
+          </MenuItem>
+        </Link>
+        <Link to="/user-analytics" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <MenuItem>
+            <Icon><FaTachometerAlt /></Icon>
+            User Analytics
           </MenuItem>
         </Link>
         <Link to="/users" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -109,6 +121,12 @@ const UserSidebar = () => {
           <MenuItem>
             <Icon><FaFileAlt /></Icon>
             User Report
+          </MenuItem>
+        </Link>
+        <Link to="/user-analytics-report" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <MenuItem>
+            <Icon><FaChartArea/></Icon>
+            Analysis Report
           </MenuItem>
         </Link>
       </Menu>

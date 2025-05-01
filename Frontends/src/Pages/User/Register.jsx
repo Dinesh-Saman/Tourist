@@ -424,7 +424,7 @@ const UserRegistration = () => {
     <Box className={classes.root}>
       <Box className={classes.formContainer}>
         <Typography variant="h4" className={classes.title}>
-          Join TravelMate
+          Join WanderLanka
         </Typography>
 
         <Box component="form" noValidate encType="multipart/form-data" onSubmit={handleSubmit}>

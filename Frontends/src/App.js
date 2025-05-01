@@ -19,6 +19,8 @@ import UserRegistration from "./Pages/User/Register";
 import EditProfile from "./Pages/User/EditProfile";
 import MainDashboard from "./Pages/Admin/main_dashboard";
 import AllPackages from "./Pages/Packages/AllPackages";
+import UserAnalyticsDashboard from "./Pages/User/UserAnalyticsDashboard";
+import AnalyticsReportPage from "./Pages/User/AnalysisReport";
 
 const App = () => {
   return (
@@ -42,6 +44,8 @@ const App = () => {
         <Route path="/users" element={<ViewUsers/>} />
         <Route path="/add-user" element={<AddUser/>} />
         <Route path="/user-report" element={<UserReportPage/>} />
+        <Route path="/user-analytics" element={<UserAnalyticsDashboard/>} />
+        <Route path="/user-analytics-report" element={<AnalyticsReportPage/>} />
 
         <Route path="/dashboard" element={< MainDashboard/>} />
       </Routes>

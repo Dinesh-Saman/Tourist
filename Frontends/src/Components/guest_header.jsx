@@ -170,12 +170,8 @@ const Header = () => {
         </Box>
 
         <Box className="logo-section">
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <img
-              src="https://intercambioeviagem.com.br/wp-content/uploads/2016/08/TravelMate-Logo.png"
-              alt="Logo"
-              className="logo"
-            />
+          <Link to="/" style={{ textDecoration: 'none', color:'#0096FF' }}>
+              <h1>WANDER-LANKA</h1>
           </Link>
         </Box>
 

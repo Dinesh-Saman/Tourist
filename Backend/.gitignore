@@ -24,3 +24,7 @@ yarn-error.log*
 
 # uploads
 /uploads
+
+# Joblib files and directories
+*.joblib
+.joblib/

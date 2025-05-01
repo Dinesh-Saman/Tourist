@@ -103,11 +103,7 @@ const MainDashboard = () => {
     <DashboardContainer>
       <MainSection>
         <MainContent>
-<<<<<<< HEAD
-          <Typography variant="h4" gutterBottom style={{ marginBottom: '20px', fontFamily: 'cursive', fontWeight: 'bold', color: 'purple', textAlign: 'center' }}>
-=======
           <Typography variant="h4" gutterBottom style={{ marginBottom: '20px', fontFamily: 'cursive', fontWeight: 'bold', color: '#0000FF', textAlign: 'center' }}>
->>>>>>> 95b8291 (Packages modified)
             Main Dashboard
           </Typography>
           {/* Card Views for Navigation */}

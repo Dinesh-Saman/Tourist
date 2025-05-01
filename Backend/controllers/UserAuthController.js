@@ -69,6 +69,10 @@ class UserAuthController {
         return res.status(401).json({ message: "Invalid email or password" });
       }
 
+      // Update last_login field
+      user.last_login = new Date();
+      await user.save();
+
       // Generate JWT token
       const token = jwt.sign(
         { id: user._id, email: user.email },
@@ -83,7 +87,8 @@ class UserAuthController {
           user_id: user.user_id,
           full_name: user.full_name,
           email: user.email,
-          profile_picture: user.profile_picture // Include profile picture in response
+          profile_picture: user.profile_picture,
+          last_login: user.last_login // Include last_login in response
         },
       });
     } catch (error) {
@@ -412,6 +417,97 @@ class UserAuthController {
         return res.status(401).json({ message: "Invalid token" });
       }
       res.status(500).json({ message: "Server error", error: error.message });
+    }
+  }
+
+  // User analysis - returns total users, gender breakdown and age categories
+  async userAnalysis(req, res) {
+    try {
+      // Get all users (excluding sensitive data)
+      const users = await User.find().select('-password -reset_token -reset_token_expiry');
+      
+      // Calculate total users
+      const totalUsers = users.length;
+      
+      // Count users by gender
+      // Using exact case as defined in the schema enum: 'Male', 'Female'
+      const maleUsers = users.filter(user => user.gender === 'Male').length;
+      const femaleUsers = users.filter(user => user.gender === 'Female').length;
+      
+      // Define age categories (6 categories starting from 18)
+      const ageCategories = {
+        '18-25': 0,
+        '26-35': 0,
+        '36-45': 0,
+        '46-55': 0,
+        '56-65': 0,
+        '65+': 0
+      };
+      
+      // Current date for age calculation
+      const currentDate = new Date();
+      
+      // Calculate age for each user and increment appropriate category
+      users.forEach(user => {
+        if (!user.dob) return; // Skip if no date of birth
+        
+        const birthDate = new Date(user.dob);
+        let age = currentDate.getFullYear() - birthDate.getFullYear();
+        
+        // Adjust age if birthday hasn't occurred yet this year
+        const monthDiff = currentDate.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && currentDate.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        
+        // Increment appropriate age category
+        if (age >= 18 && age <= 25) ageCategories['18-25']++;
+        else if (age >= 26 && age <= 35) ageCategories['26-35']++;
+        else if (age >= 36 && age <= 45) ageCategories['36-45']++;
+        else if (age >= 46 && age <= 55) ageCategories['46-55']++;
+        else if (age >= 56 && age <= 65) ageCategories['56-65']++;
+        else if (age > 65) ageCategories['65+']++;
+      });
+      
+      // Calculate user activity metrics
+      const activeUsers = {
+        lastDay: 0,
+        lastWeek: 0,
+        lastMonth: 0
+      };
+      
+      const now = new Date();
+      const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
+      const oneWeekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+      const oneMonthAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
+      
+      users.forEach(user => {
+        if (user.last_login) {
+          const loginDate = new Date(user.last_login);
+          if (loginDate >= oneDayAgo) activeUsers.lastDay++;
+          if (loginDate >= oneWeekAgo) activeUsers.lastWeek++;
+          if (loginDate >= oneMonthAgo) activeUsers.lastMonth++;
+        }
+      });
+      
+      // Return the analysis
+      res.status(200).json({
+        totalUsers,
+        genderDistribution: {
+          male: maleUsers,
+          female: femaleUsers
+        },
+        ageDistribution: ageCategories,
+        userActivity: {
+          activeInLastDay: activeUsers.lastDay,
+          activeInLastWeek: activeUsers.lastWeek,
+          activeInLastMonth: activeUsers.lastMonth
+        }
+      });
+      
+    } catch (error) {
+      console.error('Error in user analysis:', error);
+      res.status(500).json({ message: "Error generating user analysis", error: error.message });
     }
   }
 }

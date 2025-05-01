@@ -62,4 +62,7 @@ router.get('/profile', userAuthController.getUserProfile);
 // Update user profile route with optional file upload
 router.put('/profile', upload.single('profile_picture'), userAuthController.updateProfile);
 
+// User analysis
+router.get('/analysis', userAuthController.userAnalysis);
+
 module.exports = router;
