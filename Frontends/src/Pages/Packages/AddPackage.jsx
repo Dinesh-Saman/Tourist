@@ -395,22 +395,28 @@ const AddTourPackage = () => {
                   />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      margin="normal"
-                      label="Package Name"
-                      variant="outlined"
-                      value={packageName}
-                      onChange={(e) => {
-                        setPackageName(e.target.value);
-                        if (errors.packageName) {
-                          setErrors(prevErrors => ({ ...prevErrors, packageName: '' }));
-                        }
-                      }}
-                      helperText={errors.packageName}
-                      error={!!errors.packageName}
-                      required
-                    />
+                  <TextField
+  fullWidth
+  margin="normal"
+  label="Package Name"
+  variant="outlined"
+  value={packageName}
+  onChange={(e) => {
+    // Remove any numbers from the input
+    const filteredValue = e.target.value.replace(/[0-9]/g, '');
+    setPackageName(filteredValue);
+    if (errors.packageName) {
+      setErrors(prevErrors => ({ ...prevErrors, packageName: '' }));
+    }
+  }}
+  helperText={errors.packageName}
+  error={!!errors.packageName}
+  required
+  inputProps={{
+    pattern: "[A-Za-z]*",  // HTML5 pattern to prevent numbers (though onChange handles it)
+    title: "Numbers are not allowed in package name"  // Message shown when pattern fails
+  }}
+/>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
