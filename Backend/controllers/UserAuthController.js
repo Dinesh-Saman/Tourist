@@ -140,7 +140,7 @@ class UserAuthController {
       });
 
       // Generate reset URL
-      const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password/${resetToken}`;
+      const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/reset-password/${resetToken}`;
 
       // Email options
       const mailOptions = {

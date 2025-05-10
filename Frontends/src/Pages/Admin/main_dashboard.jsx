@@ -88,14 +88,14 @@ const MainDashboard = () => {
       path: '/view-packages',
     },
     {
-      title: 'Destination Management',
-      illustration: 'https://img.freepik.com/free-photo/girl-red-dress-dancing-waterfall_72229-1288.jpg?uid=R70363395&ga=GA1.1.265447444.1742467879', // Replace with your image URL
-      path: '/view-destination',
+      title: 'Booking Management',
+      illustration: 'https://plus.unsplash.com/premium_photo-1698183570547-83b0aa436b75?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Ym9va2luZyUyMHZlaGljbGV8ZW58MHwxfDB8fHww', // Replace with your image URL
+      path: '/booking-dashboard',
     },
     {
-      title: 'Tour Package Management',
-      illustration: 'https://img.freepik.com/free-photo/beautiful-endangered-american-jaguar-nature-habitat-panthera-onca-wild-brasil-brasilian-wildlife-pantanal-green-jungle-big-cats_475641-2209.jpg?uid=R70363395&ga=GA1.1.265447444.1742467879', // Replace with your image URL
-      path: '/admin/travel',
+      title: 'Payment Management',
+      illustration: 'https://images.unsplash.com/photo-1586880244406-556ebe35f282?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8b25saW5lJTIwcGF5bWVudHxlbnwwfDF8MHx8fDA%3D', // Replace with your image URL
+      path: '/payment-details',
     },
   ];
 

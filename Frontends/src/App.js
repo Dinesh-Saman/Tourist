@@ -21,6 +21,15 @@ import MainDashboard from "./Pages/Admin/main_dashboard";
 import AllPackages from "./Pages/Packages/AllPackages";
 import UserAnalyticsDashboard from "./Pages/User/UserAnalyticsDashboard";
 import AnalyticsReportPage from "./Pages/User/AnalysisReport";
+import DefaultPackage from './Pages/DefaultPackage/DefaultPackage';
+import DefaultPackageDetails from './Pages/DefaultPackage/DefaultPackageDetails';
+import BookingDashboard from './Pages/Dashboard/Dashboard';
+import Driver from './Pages/Driver/Driver';
+import Vehicle from './Pages/Vehicle/Vehicle';
+import AssignmentComponent from './Pages/Assign/AssignmentComponent';
+import PaymentDashboard from './Pages/Payment/Dashboard'
+import Payment from './Pages/Payment/Payment';
+import PaymentDetails from './Pages/Payment/PaymentDetails';
 
 const App = () => {
   return (
@@ -48,6 +57,19 @@ const App = () => {
         <Route path="/user-analytics-report" element={<AnalyticsReportPage/>} />
 
         <Route path="/dashboard" element={< MainDashboard/>} />
+
+
+        <Route path="/default-package" element={<DefaultPackage />} />
+        <Route path="/bookingdetails" element={<DefaultPackageDetails/>} />
+        <Route path="/update/:id" element={<DefaultPackageDetails />} />
+        <Route path="/booking-dashboard" element={<BookingDashboard />} />
+        <Route path="/driver-dashboard" element={<Driver />} />
+        <Route path="/owner-dashboard" element={<Vehicle />} />
+        <Route path="/vehicle/add" element={<Vehicle />} />
+        <Route path="/assign" element={<AssignmentComponent />} />
+        <Route path="/payment-dashboard" element={<PaymentDashboard />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment-details" element={<PaymentDetails />} />
       </Routes>
       <Footer />
     </>

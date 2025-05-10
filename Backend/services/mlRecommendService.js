@@ -123,7 +123,7 @@ class MLRecommendationService {
                 stdio: ['pipe', 'pipe', 'pipe'],
                 shell: true,
                 windowsHide: true,
-                timeout: 30000 // 30 second timeout
+                timeout: 50000 // 30 second timeout
             });
     
             let stdoutData = '';
@@ -134,7 +134,7 @@ class MLRecommendationService {
             processTimeout = setTimeout(() => {
                 pythonProcess.kill();
                 reject(new Error('Python process timed out after 30 seconds'));
-            }, 30000);
+            }, 50000);
     
             pythonProcess.stdout.on('data', (data) => {
                 stdoutData += data.toString();

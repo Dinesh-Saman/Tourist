@@ -31,6 +31,7 @@ import {
 } from '@material-ui/icons';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import PackagePage from '../Packages/PackagePage';
+import LandscapeTravelBooking from './LandscapeTravelBooking';
 
 const useStyles = makeStyles((theme) => ({
   heroSection: {
@@ -352,6 +353,8 @@ const TransportHome = () => {
           </Grid>
         </Container>
       </Box>
+
+      <LandscapeTravelBooking></LandscapeTravelBooking>
 
       {/* Benefits Section */}
       <Box className={classes.section} style={{ backgroundImage: 'linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%)' }}>
