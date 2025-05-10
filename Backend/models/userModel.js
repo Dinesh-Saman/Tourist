@@ -34,6 +34,12 @@ const userSchema = new Schema({
     required: true,
     enum: ['Male', 'Female'],
   },
+  user_type: {
+    type: String,
+    required: true,
+    enum: ['Traveler', 'Driver', 'Vehicle Owner'],
+    default: 'Traveler'
+  },
   password: {
     type: String,
     required: true,

@@ -161,10 +161,10 @@ const Login = () => {
     if (email === "admin@gmail.com" && password === "admin") {
       localStorage.setItem("username", "Admin");
       localStorage.setItem("userEmail", email);
+      localStorage.setItem("userType", "Admin");
       
-      // Dispatch login event
       window.dispatchEvent(new CustomEvent('loginUpdate', {
-        detail: { username: "Admin", email }
+        detail: { username: "Admin", email, userType: "Admin" }
       }));
       
       swal("Success", "Logged in as Admin!", "success");
@@ -187,6 +187,7 @@ const Login = () => {
           localStorage.setItem('username', firstName);
           localStorage.setItem('userEmail', response.data.user.email || '');
           localStorage.setItem('userId', response.data.user.id || '');
+          localStorage.setItem('userType', response.data.user.user_type || 'Traveler');
           
           if (response.data.user.profile_picture) {
             localStorage.setItem('profilePicture', `http://localhost:5000/${response.data.user.profile_picture}`);
@@ -196,15 +197,30 @@ const Login = () => {
             detail: { 
               username: firstName, 
               email: response.data.user.email,
+              userType: response.data.user.user_type,
               profilePicture: response.data.user.profile_picture 
                 ? `http://localhost:5000/${response.data.user.profile_picture}`
                 : null
             }
           }));
+
+          // Navigate based on user type
+          switch(response.data.user.user_type) {
+            case 'Traveler':
+              navigate('/');
+              break;
+            case 'Driver':
+              navigate('/driver-dashboard');
+              break;
+            case 'Vehicle Owner':
+              navigate('/owner-dashboard');
+              break;
+            default:
+              navigate('/dashboard');
+          }
         }
         
         swal("Success", "Logged in successfully!", "success");
-        navigate('/');
   
         // Set timeout to clear local storage after 1 hour
         setTimeout(() => {
@@ -212,8 +228,9 @@ const Login = () => {
           localStorage.removeItem('username');
           localStorage.removeItem('userEmail');
           localStorage.removeItem('userId');
+          localStorage.removeItem('userType');
           window.dispatchEvent(new CustomEvent('loginUpdate', {
-            detail: { username: 'User', email: '' }
+            detail: { username: 'User', email: '', userType: '' }
           }));
           swal("Session Expired", "Please login again.", "warning");
           navigate('/login');

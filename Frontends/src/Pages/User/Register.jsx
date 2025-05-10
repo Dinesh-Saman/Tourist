@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundAttachment: 'fixed', // Creates parallax effect
+    backgroundAttachment: 'fixed',
     position: 'relative',
     '&::before': {
       content: '""',
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.4)', // Dark overlay for better text contrast
+      backgroundColor: 'rgba(0,0,0,0.4)',
     }
   },
   formContainer: {
@@ -104,12 +104,13 @@ const UserRegistration = () => {
   const [address, setAddress] = useState('');
   const [dob, setDob] = useState('');
   const [gender, setGender] = useState('Male');
+  const [userType, setUserType] = useState('Traveler');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [profilePicture, setProfilePicture] = useState(null); // Changed to null for actual file
+  const [profilePicture, setProfilePicture] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState('');
   const [errors, setErrors] = useState({});
-  const [touchedFields, setTouchedFields] = useState({}); // Track which fields have been blurred
+  const [touchedFields, setTouchedFields] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const [userId, setUserId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -144,16 +145,17 @@ const UserRegistration = () => {
       address,
       dob,
       gender,
+      userType,
       password,
       confirmPassword
     };
 
     const valid = Object.values(requiredFields).every(field => field !== '' && field !== null) && 
-                  profilePicture !== null && // Added profilePicture check
+                  profilePicture !== null && 
                   password === confirmPassword;
     
     setIsFormValid(valid);
-  }, [fullName, email, contact, address, dob, gender, password, confirmPassword, profilePicture]);
+  }, [fullName, email, contact, address, dob, gender, userType, password, confirmPassword, profilePicture]);
 
   // Validate field and return error message if invalid
   const validateField = (fieldName, value) => {
@@ -184,6 +186,9 @@ const UserRegistration = () => {
       case 'gender':
         return value ? "" : "Gender is required.";
       
+      case 'userType':
+        return value ? "" : "User type is required.";
+      
       case 'password':
         return value ? "" : "Password is required.";
       
@@ -201,19 +206,13 @@ const UserRegistration = () => {
 
   // Generic handler for blur events
   const handleBlur = (fieldName, value) => {
-    // Mark the field as touched
     setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
-    
-    // Validate the field
     const errorMessage = validateField(fieldName, value);
-    
-    // Update errors state
     setErrors(prev => ({ ...prev, [fieldName]: errorMessage }));
   };
 
   // Field-specific handlers
   const handleChange = (fieldName, value) => {
-    // Update the field value without showing error
     switch(fieldName) {
       case 'fullName':
         setFullName(value);
@@ -232,12 +231,14 @@ const UserRegistration = () => {
         break;
       case 'gender':
         setGender(value);
-        // Gender is typically selected rather than typed, so validate immediately
         handleBlur('gender', value);
+        break;
+      case 'userType':
+        setUserType(value);
+        handleBlur('userType', value);
         break;
       case 'password':
         setPassword(value);
-        // If confirmPassword is already touched, validate it too since it depends on password
         if (touchedFields.confirmPassword) {
           handleBlur('confirmPassword', confirmPassword);
         }
@@ -250,7 +251,7 @@ const UserRegistration = () => {
     }
   };
 
-  // Handle profile picture upload - Updated for actual file upload
+  // Handle profile picture upload
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -274,17 +275,14 @@ const UserRegistration = () => {
       return;
     }
 
-    // Store the actual file for form submission
     setProfilePicture(file);
 
-    // Create preview for display
     const reader = new FileReader();
     reader.onloadend = () => {
       setProfilePicturePreview(reader.result);
     };
     reader.readAsDataURL(file);
     
-    // Mark field as touched and clear errors
     setTouchedFields(prev => ({ ...prev, profilePicture: true }));
     setErrors(prevErrors => ({ ...prevErrors, profilePicture: '' }));
   };
@@ -293,8 +291,6 @@ const UserRegistration = () => {
   const handleRemoveProfilePicture = () => {
     setProfilePicture(null);
     setProfilePicturePreview('');
-    
-    // Mark as touched and set error when removed
     setTouchedFields(prev => ({ ...prev, profilePicture: true }));
     setErrors(prevErrors => ({ ...prevErrors, profilePicture: 'Profile picture is required' }));
   };
@@ -307,6 +303,7 @@ const UserRegistration = () => {
       address,
       dob,
       gender,
+      userType,
       password,
       confirmPassword,
       profilePicture
@@ -326,25 +323,20 @@ const UserRegistration = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     
-    // Validate all fields on form submission
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      
-      // Mark all fields as touched to display errors
       const allFieldsTouched = {};
       Object.keys(validationErrors).forEach(field => {
         allFieldsTouched[field] = true;
       });
       setTouchedFields(prev => ({ ...prev, ...allFieldsTouched }));
-      
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // Create a FormData object for file upload
       const formData = new FormData();
       formData.append("user_id", userId);
       formData.append("full_name", fullName);
@@ -353,19 +345,16 @@ const UserRegistration = () => {
       formData.append("address", address);
       formData.append("dob", new Date(dob).toISOString());
       formData.append("gender", gender);
+      formData.append("user_type", userType);
       formData.append("password", password);
-      
-      // Since profilePicture is required, we should always have it
       formData.append("profile_picture", profilePicture);
 
-      // Set the proper headers for multipart/form-data
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       };
 
-      // Send the request
       await axios.post('http://localhost:5000/user/register', formData, config);
       
       swal({
@@ -375,16 +364,16 @@ const UserRegistration = () => {
         timer: 2000,
         buttons: false
       }).then(() => {
-        navigate('/login');  // Changed from history.push to navigate
+        navigate('/login');
       });
 
-      // Reset form fields but keep the user ID
       setFullName('');
       setEmail('');
       setContact('');
       setAddress('');
       setDob('');
-      setGender('');
+      setGender('Male');
+      setUserType('Traveler');
       setPassword('');
       setConfirmPassword('');
       setProfilePicture(null);
@@ -392,7 +381,6 @@ const UserRegistration = () => {
       setErrors({});
       setTouchedFields({});
 
-      // Generate a new user ID for the next entry
       const newUserId = generateUserId();
       setUserId(newUserId);
     } catch (error) {
@@ -424,7 +412,7 @@ const UserRegistration = () => {
     <Box className={classes.root}>
       <Box className={classes.formContainer}>
         <Typography variant="h4" className={classes.title}>
-          Join WanderLanka
+          Join TravelMate
         </Typography>
 
         <Box component="form" noValidate encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -588,6 +576,23 @@ const UserRegistration = () => {
               <FormControlLabel value="Female" control={<Radio />} label="Female" />
             </RadioGroup>
             <FormHelperText>{touchedFields.gender && errors.gender ? errors.gender : ''}</FormHelperText>
+          </FormControl>
+
+          {/* New User Type Field */}
+          <FormControl fullWidth margin="normal" error={!!(touchedFields.userType && errors.userType)} required>
+            <InputLabel>User Type</InputLabel>
+            <Select
+              value={userType}
+              onChange={(e) => handleChange('userType', e.target.value)}
+              onBlur={() => handleBlur('userType', userType)}
+              label="User Type"
+              variant='outlined'
+            >
+              <MenuItem value="Traveler">Traveler</MenuItem>
+              <MenuItem value="Driver">Driver</MenuItem>
+              <MenuItem value="Vehicle Owner">Vehicle Owner</MenuItem>
+            </Select>
+            <FormHelperText>{touchedFields.userType && errors.userType ? errors.userType : ''}</FormHelperText>
           </FormControl>
 
           <TextField
