@@ -183,13 +183,6 @@ function Payment() {
             // First save the payment
             await axios.post("http://localhost:5000/payment", formData);
             
-            // Then send WhatsApp message
-            await axios.post("http://localhost:5000/payment/send-whatsapp", {
-                whatsAppNumber: formData.whatsAppNumber,
-                cardHolderName: formData.cardHolderName,
-                amount: formData.amount
-            });
-            
             setSuccess(true);
             setTimeout(() => {
                 navigate('/default-package');

@@ -239,6 +239,7 @@ function DefaultPackage() {
   }, {});
 
   return (
+        <div className="default-package-page">
     <div className="dp-form-container">
       <div className="dp-header">
         <h2 className="dp-form-title">Book Your Tour Package</h2>
@@ -475,12 +476,11 @@ function DefaultPackage() {
           >
             Submit
           </button>
-          <button type="button" onClick={handleViewDashboard} className="dp-dashboard-btn-secondary">
-            View Dashboard
-          </button>
         </div>
       </form>
     </div>
+        </div>
+
   );
 }
 
