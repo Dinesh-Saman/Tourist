@@ -4,7 +4,7 @@ const router = express.Router();
 //insert model
 const payment = require("../models/ModelPayment");
 //insert payment controller
-const paymentController = require("../Controllers/ControllerPayment");
+const paymentController = require("../controllers/ControllerPayment");
 
 router.get("/", paymentController.getAllPayment);
 router.post("/", paymentController.addPayment);
