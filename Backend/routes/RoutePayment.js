@@ -11,7 +11,6 @@ router.post("/", paymentController.addPayment);
 router.get("/:id", paymentController.getPaymentById);
 router.put("/:id", paymentController.updatePayment);
 router.delete("/:id", paymentController.deletePayment);
-router.post("/send-whatsapp", paymentController.sendWhatsAppMessage);
 
 //export
 module.exports = router;

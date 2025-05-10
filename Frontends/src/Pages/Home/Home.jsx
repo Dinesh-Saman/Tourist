@@ -242,7 +242,7 @@ const TransportHome = () => {
               variant="contained"
               color="secondary"
               size="large"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/default-package')}
               style={{
                 padding: '15px 40px',
                 fontWeight: 'bold',

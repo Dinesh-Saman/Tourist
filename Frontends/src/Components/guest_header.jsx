@@ -246,12 +246,6 @@ const Header = () => {
 
               {loginType === 'user' && (
                 <>
-                  <MenuItem onClick={() => { navigate('/view-packages'); handleClose(); }}>
-                    <ListItemIcon>
-                      <Person fontSize="small" />
-                    </ListItemIcon>
-                    View Dashboard
-                  </MenuItem>
                   <MenuItem onClick={() => { navigate('/edit-profile'); handleClose(); }}>
                     <ListItemIcon>
                       <Edit fontSize="small" />
